@@ -1,0 +1,26 @@
+{
+    "name": "themonkeys/error-emailer",
+    "description": "Emails you whenever an error occurs on your server",
+    "homepage": "http://github.com/TheMonkeys/laravel-error-emailer",
+    "keywords": ["error", "exception", "email", "sysadmin", "laravel"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "themonkeys",
+            "email": "developers@themonkeys.com.au"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Themonkeys\\ErrorEmailer": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
