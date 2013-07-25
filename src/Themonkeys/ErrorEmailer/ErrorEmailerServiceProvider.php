@@ -37,30 +37,41 @@ class ErrorEmailerServiceProvider extends ServiceProvider {
 		$this->app->error(function(\Exception $exception, $code) {
             if (!App::runningInConsole() &&
                 Config::get('error-emailer::enabled') &&
-                Config::get('error-emailer::to.address') &&
                 !Config::get('error-emailer::disabledStatusCodes.'.$code)) {
 
-                if ($exception instanceof FlattenException) {
-                    $flattened = $exception;
-                } else {
-                    $flattened = FlattenException::create($exception);
+                $recipients = Config::get("error-emailer::to");
+                if (isset($recipients['address'])) {
+                    // this is a single recipient
+                    if ($recipients['address']) {
+                        $recipients = array($recipients);
+                    } else {
+                        $recipients = array();
+                    }
                 }
-                $handler = new ExceptionHandler();
-                $content = $handler->getContent($flattened);
 
-                $model = array(
-                    'trace' => $content,
-                    'exception' => $exception,
-                    'flattened' => $flattened
-                );
-                Mail::send('error-emailer::error', $model, function($message) use ($model) {
-                    $subject = View::make('error-emailer::subject', $model)->render();
+                if (sizeof($recipients) > 0) {
+                    if ($exception instanceof FlattenException) {
+                        $flattened = $exception;
+                    } else {
+                        $flattened = FlattenException::create($exception);
+                    }
+                    $handler = new ExceptionHandler();
+                    $content = $handler->getContent($flattened);
 
-                    $message->to(
-                        Config::get("error-emailer::to.address"),
-                        Config::get("error-emailer::to.name")
-                    )->subject($subject);
-                });
+                    $model = array(
+                        'trace' => $content,
+                        'exception' => $exception,
+                        'flattened' => $flattened
+                    );
+                    Mail::send('error-emailer::error', $model, function($message) use ($model, $recipients) {
+                        $subject = View::make('error-emailer::subject', $model)->render();
+
+                        $message->subject($subject);
+                        foreach ($recipients as $to) {
+                            $message->to($to['address'], $to['name']);
+                        }
+                    });
+                }
             }
         });
 	}
