@@ -13,7 +13,7 @@ To get the latest version of cachebuster simply require it in your composer.json
 
 ```bash
 composer require themonkeys/error-emailer:dev-master --no-update
-composer update themonkeys/error-emailer --no-scripts
+composer update themonkeys/error-emailer
 ```
 
 Once the package is installed you need to register the service provider with the application. Open up
