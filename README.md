@@ -11,11 +11,10 @@ Installation
 ------------
 To get the latest version of cachebuster simply require it in your composer.json file.
 
-```JSON
-"themonkeys/error-emailer": "dev-master"
+```bash
+composer require themonkeys/error-emailer:dev-master --no-update
+composer update themonkeys/error-emailer --no-scripts
 ```
-
-You'll then need to run `composer install` or `composer update` to download it and have the autoloader updated.
 
 Once the package is installed you need to register the service provider with the application. Open up
 `app/config/app.php` and find the `providers` key.
