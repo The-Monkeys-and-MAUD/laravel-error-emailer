@@ -22,6 +22,19 @@ return array(
         '404' => true,
     ),
 
+
+	 /*
+    |--------------------------------------------------------------------------
+    | Error email sender
+    |--------------------------------------------------------------------------
+    |
+    | Email stack traces from these address.
+    |
+    |   'from' => array('address' => 'you@domain.com', 'name' => 'Your Name'),
+    */
+
+    'from' => array('address' => null, 'name' => null),
+
     /*
     |--------------------------------------------------------------------------
     | Error email recipients
