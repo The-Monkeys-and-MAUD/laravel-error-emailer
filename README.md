@@ -25,6 +25,14 @@ Once the package is installed you need to register the service provider with the
 )
 ```
 
+Add the following to the `facades` key
+
+```
+'facades' => array(
+    'ErrorEmailer' => 'Themonkeys\ErrorEmailer\Facades\ErrorEmailer',
+)
+```
+
 The package comes disabled by default, since you probably don't want error emailing enabled on your development
 environment. Especially if you've set `'debug' => true,`.
 
