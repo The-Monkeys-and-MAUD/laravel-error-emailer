@@ -41,4 +41,20 @@ return array(
     */
 
     'to' => array('address' => null, 'name' => null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ignore Crawler Bots
+    |--------------------------------------------------------------------------
+    |
+    | For which bots should we NOT send error emails?
+    |
+    */
+    'ignoredBots' => array(
+        'googlebot',        //Googlebot
+        'bingbot',          //Microsoft Bingbot
+        'slurp',            //Yahoo! Slurp
+        'AhrefsBot',        //AhrefsBot
+        'ia_archiver',      //crawler@alexa.com
+    ),
 );
