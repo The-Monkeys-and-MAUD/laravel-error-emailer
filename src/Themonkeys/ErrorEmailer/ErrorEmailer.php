@@ -1,16 +1,18 @@
 <?php
 
 namespace Themonkeys\ErrorEmailer;
+
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\View;
 
-class ErrorEmailer {
+class ErrorEmailer
+{
     public function sendException($exception)
     {
-        if(!errorFromBot()) {
+        if (!$this->isErrorFromBot()) {
             $recipients = Config::get("error-emailer::to");
             if (isset($recipients['address'])) {
                 // this is a single recipient
@@ -35,7 +37,7 @@ class ErrorEmailer {
                     'exception' => $exception,
                     'flattened' => $flattened
                 );
-                Mail::send('error-emailer::error', $model, function($message) use ($model, $recipients) {
+                Mail::send('error-emailer::error', $model, function ($message) use ($model, $recipients) {
                     $subject = View::make('error-emailer::subject', $model)->render();
 
                     $message->subject($subject);
@@ -47,17 +49,21 @@ class ErrorEmailer {
         }
     }
 
-    protected static function errorFromBot() {
+    protected function isErrorFromBot()
+    {
         $ignoredBots = Config::get("error-emailer::ignoredBots");
         $serverUserAgent = array_key_exists('HTTP_USER_AGENT', $_SERVER) ? $_SERVER['HTTP_USER_AGENT'] : null;
         $serverFrom = array_key_exists('HTTP_FROM', $_SERVER) ? $_SERVER['HTTP_FROM'] : null;
-        if(is_array($ignoredBots)) {
+        if (is_array($ignoredBots)) {
             foreach ($ignoredBots as $bot) {
-                if( ($serverUserAgent && strpos(strtolower($serverUserAgent), $bot) !== false) || ($serverFrom && strpos(strtolower($serverFrom), $bot) !== false) )
+                if (($serverUserAgent && strpos(strtolower($serverUserAgent), $bot) !== false) ||
+                    ($serverFrom && strpos(strtolower($serverFrom), $bot) !== false)
+                ) {
                     return true;
+                }
             }
         }
 
         return false;
     }
-} 
+}

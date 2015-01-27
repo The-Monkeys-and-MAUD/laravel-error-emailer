@@ -25,7 +25,7 @@ Once the package is installed you need to register the service provider with the
 )
 ```
 
-Add the following to the `facades` key
+Add the following to the `facades` key:
 
 ```
 'facades' => array(
@@ -62,6 +62,47 @@ return array(
 To make your configuration apply only to a particular environment, put your configuration in an environment folder such
 as `app/config/packages/themonkeys/error-emailer/environment-name/config.php`.
 
+Configuring emails
+------------------
+
+For the error emails to be sent, your application needs to be properly configured to send email. Open your 
+`app/config/mail.php` file to configure default settings, and override those defaults for your application's other
+environments by adding `app/config/<environment>/mail.php` files as necessary. In particular, make sure you've set up
+a default sender address - without one, the error emailer won't be able to send emails:
+
+```php
+    'from' => array('address' => 'someone@somedomain.com', 'name' => 'My Application'),
+```
+
+Error handler precedence
+------------------------
+
+This package intercepts errors in the same way as your application can, by registering an error handler with the 
+application. The default Laravel application includes an empty error handler in `app/start/global.php`:
+
+```php
+App::error(function(Exception $exception, $code)
+{
+	Log::error($exception);
+});
+```
+
+Because of the way `App::error()` works, this handler is called _before_ this package's handler; so if you return a 
+response from the handler in `app/start/global.php` (for example to render a custom error page), you won't receive any 
+error emails. To fix this, our recommended approach is to change the priority of the handler in `app/start/global.php`
+so that it runs last instead of first:
+
+```php
+App::pushError(function(Exception $exception, $code)
+{
+	return View::make('myerrorpage', array(
+	    'exception' => $exception,
+	    'code' => $code,
+    ));
+});
+```
+
+(Note the change from `App::error` to `App::pushError`).
 
 Contribute
 ----------
