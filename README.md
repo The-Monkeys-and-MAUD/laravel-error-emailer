@@ -9,7 +9,7 @@ and you'll be sent an email with plenty of diagnostic information whenever an er
 
 Installation
 ------------
-To get the latest version of cachebuster simply require it in your composer.json file.
+To get the latest version of the package simply require it in your composer.json file.
 
 ```bash
 composer require themonkeys/error-emailer:dev-master --no-update
