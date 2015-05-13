@@ -21,6 +21,10 @@ return array(
     'disabledStatusCodes' => array(
         '404' => true,
     ),
+	
+	'error_template' => 'error-emailer::error',
+	
+	'subject_template' => 'error-emailer::subject',
 
     /*
     |--------------------------------------------------------------------------
