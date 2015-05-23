@@ -37,8 +37,8 @@ class ErrorEmailer
                     'exception' => $exception,
                     'flattened' => $flattened
                 );
-                Mail::send('error-emailer::error', $model, function ($message) use ($model, $recipients) {
-                    $subject = View::make('error-emailer::subject', $model)->render();
+                Mail::send(Config::get("error-emailer::error_template"), $model, function ($message) use ($model, $recipients) {
+                    $subject = View::make(Config::get("error-emailer::subject_template"), $model)->render();
 
                     $message->subject($subject);
                     foreach ($recipients as $to) {
