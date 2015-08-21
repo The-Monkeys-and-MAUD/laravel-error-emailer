@@ -7,8 +7,8 @@ Don't have a sysadmin keeping an eye on your application's error logs? Just add 
 and you'll be sent an email with plenty of diagnostic information whenever an error occurs.
 
 
-Installation
-------------
+Installation Laravel 4.x
+-------------------------
 To get the latest version of the package simply require it in your composer.json file.
 
 ```bash
