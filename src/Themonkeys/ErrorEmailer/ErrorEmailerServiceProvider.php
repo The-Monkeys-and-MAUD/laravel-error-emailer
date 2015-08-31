@@ -34,7 +34,8 @@ class ErrorEmailerServiceProvider extends ServiceProvider {
             return new ErrorEmailer();
         });
         $app->error(function(\Exception $exception, $code) use ($app) {
-            if (!$app->runningInConsole() &&
+            if (
+                ( Config::get('error-emailer::run_in_console') || !$app->runningInConsole() ) &&
                 Config::get('error-emailer::enabled') &&
                 !Config::get('error-emailer::disabledStatusCodes.'.$code)) {
 
