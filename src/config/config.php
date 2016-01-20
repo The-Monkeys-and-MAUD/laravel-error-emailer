@@ -45,6 +45,20 @@ return array(
     */
 
     'to' => array('address' => null, 'name' => null),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Error email sender
+    |--------------------------------------------------------------------------
+    |
+    | Email stack traces sent from these addresses.
+    |
+    | For a single recipient, the format can just be
+    |   'to' => array('address' => 'you@domain.com', 'name' => 'Your Name'),
+    |
+    */
+
+    'from' => array('address' => null, 'name' => null),
 
     /*
     |--------------------------------------------------------------------------

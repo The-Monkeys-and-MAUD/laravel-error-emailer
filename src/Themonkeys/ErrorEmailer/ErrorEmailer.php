@@ -14,6 +14,7 @@ class ErrorEmailer
     {
         if (!$this->isErrorFromBot()) {
             $recipients = Config::get("error-emailer::to");
+            $sender = Config::get("error-emailer::from");
             if (isset($recipients['address'])) {
                 // this is a single recipient
                 if ($recipients['address']) {
@@ -21,6 +22,11 @@ class ErrorEmailer
                 } else {
                     $recipients = array();
                 }
+            }
+            if (!empty($sender['address'])) {
+                $from = $sender;
+            } else {
+                $from = Config::get('mail::from');
             }
 
             if (sizeof($recipients) > 0) {
@@ -37,10 +43,11 @@ class ErrorEmailer
                     'exception' => $exception,
                     'flattened' => $flattened
                 );
-                Mail::send(Config::get("error-emailer::error_template"), $model, function ($message) use ($model, $recipients) {
+                Mail::send(Config::get("error-emailer::error_template"), $model, function ($message) use ($model, $recipients, $from) {
                     $subject = View::make(Config::get("error-emailer::subject_template"), $model)->render();
 
                     $message->subject($subject);
+                    $message->from($from);
                     foreach ($recipients as $to) {
                         $message->to($to['address'], $to['name']);
                     }
