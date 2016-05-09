@@ -40,6 +40,11 @@ class ErrorEmailer
                 Mail::send(Config::get("error-emailer::error_template"), $model, function ($message) use ($model, $recipients) {
                     $subject = View::make(Config::get("error-emailer::subject_template"), $model)->render();
 
+                    if($from = Config::get("error-emailer::from"))
+                    {
+                        $message->from($from);
+                    }
+
                     $message->subject($subject);
                     foreach ($recipients as $to) {
                         $message->to($to['address'], $to['name']);
