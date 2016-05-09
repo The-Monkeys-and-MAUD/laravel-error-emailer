@@ -22,9 +22,11 @@ return array(
         '404' => true,
     ),
 	
-	'error_template' => 'error-emailer::error',
+    'error_template' => 'error-emailer::error',
 	
-	'subject_template' => 'error-emailer::subject',
+    'subject_template' => 'error-emailer::subject',
+	
+    'run_in_console' => false,
 
     /*
     |--------------------------------------------------------------------------
